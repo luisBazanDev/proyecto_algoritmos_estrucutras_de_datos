@@ -1,0 +1,12 @@
+{
+    "proseWrap": "always",
+    "overrides": [
+        {
+            "files": "*.html",
+            "options": {
+                "tabWidth": 2
+            }
+        }
+    ],
+    "tabWidth": 4
+}
