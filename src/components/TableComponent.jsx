@@ -10,7 +10,7 @@ function TableComponent() {
 
   // data is a array of objects
   return (
-    <div>
+    <div className="h-full w-full">
       <table>
         <thead>
           <tr>
