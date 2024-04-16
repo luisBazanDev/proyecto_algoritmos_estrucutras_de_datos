@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import AppContext from "./contexts/AppContext";
-import TableComponent from "./components/TableComponent";
+import WithoutTokenPage from "./pages/WithoutTokenPage";
 
 function App() {
   const [dataState, setDataState] = useState({});
@@ -18,6 +18,8 @@ function App() {
       { data1: 52, data2: 53, data3: "Bonjour" },
       { data1: 62, data2: 63, data3: "Ciao" },
     ]);
+
+    setDataState("NONE");
   }, []);
 
   const value = {
@@ -34,8 +36,10 @@ function App() {
   return (
     <AppContext.Provider value={value}>
       <div className="App">
-        <header className="App-header">Hello world!</header>
-        <TableComponent />
+        {
+          // If dataState is NONE, show a WitchoutTokenPage component
+          dataState === "NONE" && <WithoutTokenPage />
+        }
       </div>
     </AppContext.Provider>
   );
