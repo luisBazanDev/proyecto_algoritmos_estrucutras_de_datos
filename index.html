@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Sorter and Searcher v1.0</h1>
+    </header>
+    <div class="upperbar">
+        
+            <div class="sort">
+                <h2>Sort algorythms</h2>
+                <label for="sort">Select a sort algorithm</label>
+                <select name="sort" id="sort">
+                    <option value="bubbleSort">Bubble Sort</option>
+                    <option value="quickSort">Quick Sort</option>
+                    <option value="mergeSort">Merge Sort</option>
+                    <option value="insertionSort">Insertion Sort</option>
+                    <option value="selectionSort">Selection Sort</option>
+                    <option value="heapSort">Heap Sort</option>
+                    <option value="shellSort">Shell Sort</option>
+                    <option value="countingSort">Counting Sort</option>
+                </select>
+                      
+            </div>
+            <input type="text" placeholder="Column">
+            <div class="controls">
+                <button id="start">Start</button>
+                <button id="pause">Pause</button>
+                <button id="stop">Stop</button>
+            </div>
+            <div class="search">
+                <h2>Search algorythms</h2>
+                <input type="text" placeholder="Write the target to search">
+                <label for="search">Select a search algorithm</label>
+                <select name="search" id="search">
+                    <option value="linearSearch">Linear Search</option>
+                    <option value="binarySearch">Binary Search</option>
+                    <option value="jumpSearch">Jump Search</option>
+                    <option value="ternarySearch">Ternary Search</option>
+                    <option value="fibonacciSearch">Fibonacci Search</option>
+                </select>
+                
+
+            </div>
+            
+
+        
+    </div>
+    
+    <div class="container">
+        <div class="upload">
+            <input type="file" id="fileInput" accept=".csv">
+            <button id="upload">Upload</button>
+        </div>
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'Table')">Tabla</button>
+            
+        </div>
+        
+        <div class="visualizer-box">
+            
+        </div>
+
+    </div>
+</body>
+</html>
