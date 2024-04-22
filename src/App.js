@@ -1,8 +1,7 @@
-import Table from "./components/content/Table";
-import UpperBar from "./components/algorithms/UpperBar";
 import { useEffect, useState } from "react";
 import AppContext from "./contexts/AppContext";
 import WithoutTokenPage from "./pages/WithoutTokenPage";
+import TablePage from "./pages/TablePage";
 
 function App() {
   const [dataState, setDataState] = useState({});
@@ -21,7 +20,7 @@ function App() {
       { data1: 62, data2: 63, data3: "Ciao" },
     ]);
 
-    setDataState("NONE");
+    setDataState("READY");
   }, []);
 
   const value = {
@@ -38,10 +37,8 @@ function App() {
   return (
     <AppContext.Provider value={value}>
       <div className="App">
-        {
-          // If dataState is NONE, show a WitchoutTokenPage component
-          dataState === "NONE" && <WithoutTokenPage />
-        }
+        {dataState === "NONE" && <WithoutTokenPage />}
+        {dataState === "READY" && <TablePage />}
       </div>
     </AppContext.Provider>
   );
