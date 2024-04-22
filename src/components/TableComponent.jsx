@@ -1,12 +1,8 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import AppContext from "../contexts/AppContext";
 
 function TableComponent() {
   const { data } = useContext(AppContext);
-
-  useEffect(() => {
-    // Fetch data from API
-  }, []);
 
   // data is a array of objects
   return (

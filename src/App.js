@@ -4,7 +4,7 @@ import WithoutTokenPage from "./pages/WithoutTokenPage";
 import TablePage from "./pages/TablePage";
 
 function App() {
-  const [dataState, setDataState] = useState({});
+  const [dataState, setDataState] = useState("NONE");
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [token, setToken] = useState("");
