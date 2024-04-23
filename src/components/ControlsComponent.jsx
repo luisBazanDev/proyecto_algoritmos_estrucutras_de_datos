@@ -10,7 +10,7 @@ function ControlsComponent({ sort = false, search = false }) {
     dataState === "LOADING" || dataState === "PROCESSING" ? true : false;
 
   return (
-    <div className="grid grid-cols-2 justify-center px-3 py-2 gap-2 max-h-10">
+    <div className="grid grid-cols-2 justify-center px-2 py-1 gap-2 max-h-1/0 text-black text-sm">
       <div
         className={
           "font-bold py-2 px-3 text-center w-auto cursor-pointer select-none " +
