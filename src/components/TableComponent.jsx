@@ -5,13 +5,27 @@ import AppContext from "../contexts/AppContext";
 
 function TableComponent() {
   const [pointerCell, setPointerCell] = useState([0, 0]); // [x, y]
-  const { data } = useContext(AppContext);
+  const { page, data, setPage } = useContext(AppContext);
 
   const handleMouseMove = (e) => {
     const x = e.target.cellIndex;
     const y = e.target.parentNode.rowIndex;
-    console.log("Cell:", x, y);
+    // console.log("Cell:", x, y);
     setPointerCell([x, y]);
+  };
+
+  const handlePageChange = (howPage) => {
+    if (howPage === "prev" && page.now > 1) {
+      setPage({ now: page.now - 1, total: page.total });
+    } else if (howPage === "next" && page.now < page.total) {
+      setPage({ now: page.now + 1, total: page.total });
+    } else if (
+      typeof howPage === "number" &&
+      howPage > 0 &&
+      howPage <= page.total
+    ) {
+      setPage({ now: howPage, total: page.total });
+    }
   };
 
   // data is a array of objects
@@ -78,25 +92,72 @@ function TableComponent() {
       <div className="h-[5%] w-full flex justify-center bg-gray-900">
         <div className="flex text-white text-lg border-e-black">
           <div className="px-2 w-8 cursor-pointer select-none text-center hover:bg-cyan-700 active:bg-cyan-900">
-            <FontAwesomeIcon icon={faArrowLeft} />
+            <FontAwesomeIcon
+              icon={faArrowLeft}
+              onClick={() => {
+                handlePageChange("prev");
+              }}
+            />
           </div>
-          <div className="px-2 w-8 cursor-pointer select-none text-center hover:bg-cyan-700 active:bg-cyan-900">
-            1
+          <div
+            className={
+              "px-2 w-8 cursor-pointer select-none text-center hover:bg-cyan-700 active:bg-cyan-900 " +
+              (page.now === 1 ? "bg-cyan-700" : "")
+            }
+            onClick={() => {
+              handlePageChange(page.now === 1 ? 1 : page.now - 1);
+            }}
+          >
+            {page.now === 1 ? 1 : page.now - 1}
           </div>
-          <div className="px-2 w-8 cursor-pointer select-none text-center hover:bg-cyan-700 active:bg-cyan-900">
-            2
+          <div
+            className={
+              "px-2 w-8 cursor-pointer select-none text-center hover:bg-cyan-700 active:bg-cyan-900 " +
+              (page.now !== 1 ? "bg-cyan-700" : "")
+            }
+            onClick={() => {
+              handlePageChange(page.now === 1 ? page.now + 1 : page.now);
+            }}
+          >
+            {page.now === 1 ? page.now + 1 : page.now}
           </div>
-          <div className="px-2 w-8 cursor-pointer select-none text-center hover:bg-cyan-700 active:bg-cyan-900">
-            3
+          <div
+            className={
+              "px-2 w-8 cursor-pointer select-none text-center hover:bg-cyan-700 active:bg-cyan-900 " +
+              (page.now + 1 >= page.total ? "hidden" : "")
+            }
+            onClick={() => {
+              handlePageChange(page.now === 1 ? page.now + 2 : page.now + 1);
+            }}
+          >
+            {page.now === 1 ? page.now + 2 : page.now + 1}
           </div>
-          <div className="px-2 w-8 cursor-pointer select-none text-center hover:bg-cyan-700 active:bg-cyan-900">
+          <div
+            className={
+              "px-2 w-8 cursor-pointer select-none text-center hover:bg-cyan-700 active:bg-cyan-900 " +
+              (page.now + 2 >= page.total ? "hidden" : "")
+            }
+          >
             ...
           </div>
-          <div className="px-2 w-8 cursor-pointer select-none text-center hover:bg-cyan-700 active:bg-cyan-900">
-            10
+          <div
+            className={
+              "px-2 w-8 cursor-pointer select-none text-center hover:bg-cyan-700 active:bg-cyan-900 " +
+              (page.now >= page.total ? "hidden" : "")
+            }
+            onClick={() => {
+              handlePageChange(page.total);
+            }}
+          >
+            {page.total}
           </div>
-          <div className="px-2 w-8 cursor-pointer hover:bg-cyan-700 active:bg-cyan-900">
-            <FontAwesomeIcon icon={faArrowRight} />
+          <div className="px-2 w-8 cursor-pointer hover:bg-cyan-700 active:bg-cyan-900 ">
+            <FontAwesomeIcon
+              icon={faArrowRight}
+              onClick={() => {
+                handlePageChange("next");
+              }}
+            />
           </div>
         </div>
       </div>

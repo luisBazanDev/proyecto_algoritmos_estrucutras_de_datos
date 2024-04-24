@@ -62,7 +62,7 @@ function WithoutTokenPage() {
 
   return (
     <div className="h-screen w-screen flex flex-col p-4">
-      <div className="text-2xl text-center mb-3">AED - App v1</div>
+      <div className="text-2xl text-center mb-3">CSV Navigator</div>
       <div
         className={
           "h-full w-full bg-gray-100 flex flex-col justify-center items-center" +

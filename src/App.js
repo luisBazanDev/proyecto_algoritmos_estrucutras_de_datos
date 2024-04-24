@@ -6,7 +6,7 @@ import TablePage from "./pages/TablePage";
 function App() {
   const [dataState, setDataState] = useState("NONE");
   const [data, setData] = useState([]);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState({ now: 1, total: 1 });
   const [token, setToken] = useState("");
 
   useEffect(() => {

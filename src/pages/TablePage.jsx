@@ -6,9 +6,13 @@ import SearchComponent from "../components/SearchComponent";
 import AppContext from "../contexts/AppContext";
 
 var interval;
+var pageLocal;
 
 function TablePage() {
-  const { token, setDataState, page, setData } = useContext(AppContext);
+  const { token, setDataState, page, setData, setPage } =
+    useContext(AppContext);
+
+  pageLocal = page;
 
   useEffect(() => {
     if (interval) clearInterval(interval);
@@ -22,13 +26,14 @@ function TablePage() {
       axios
         .get("/api/data", {
           headers: { Authorization: `${token}` },
-          params: { page, limit: 50 },
+          params: { page: pageLocal.now, limit: 50 },
         })
         .then((res) => {
-          setData(res.data);
+          setData(res.data.data);
+          setPage({ now: pageLocal.now, total: res.data.size });
         });
     }, 1000);
-  }, [setDataState, token, setData]);
+  }, [setDataState, token, setData, setPage]);
 
   return (
     <div className="flex flex-col h-full">
