@@ -1,21 +1,23 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useContext } from "react";
 import axios from "axios";
 import { useDropzone } from "react-dropzone";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileArrowUp, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import AppContext from "../contexts/AppContext";
 
 function WithoutTokenPage() {
-  const { file, setFile } = useState(undefined);
-  const { progress, setProgress } = useState(0);
+  const { setToken, setDataState } = useContext(AppContext);
+  const [file, setFile] = useState(null);
+  const [progress, setProgress] = useState(0);
 
-  const handleUpload = () => {
+  const handleUpload = (file) => {
     const formData = new FormData();
     formData.append("file", file);
 
     axios
       .post("/api/upload", formData, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "multipart/form-data; boundary=" + file.size,
         },
         onUploadProgress: (progressEvent) => {
           const percentCompleted = Math.round(
@@ -25,7 +27,11 @@ function WithoutTokenPage() {
         },
       })
       .then((response) => {
-        console.log(response.data);
+        console.log(response.status);
+        if (response.status === 200) {
+          setToken(response.data);
+          setDataState("READY");
+        }
       })
       .catch((error) => {
         console.error("Error al cargar el archivo:", error);
@@ -35,7 +41,8 @@ function WithoutTokenPage() {
   const onDrop = (acceptedFiles) => {
     if (!acceptedFiles[0]) return;
     setFile(acceptedFiles[0]);
-    handleUpload();
+
+    handleUpload(acceptedFiles[0]);
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({

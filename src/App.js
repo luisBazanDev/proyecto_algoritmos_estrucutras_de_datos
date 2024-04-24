@@ -86,7 +86,7 @@ function App() {
       },
     ]);
 
-    setDataState("READY");
+    setDataState("NONE");
   }, []);
 
   const value = {
