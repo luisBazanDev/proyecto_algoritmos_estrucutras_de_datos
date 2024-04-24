@@ -1,6 +1,10 @@
 import { useContext, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowLeft,
+  faArrowRight,
+  faSpinner,
+} from "@fortawesome/free-solid-svg-icons";
 import AppContext from "../contexts/AppContext";
 
 function TableComponent() {
@@ -29,7 +33,7 @@ function TableComponent() {
   };
 
   // data is a array of objects
-  return (
+  return data !== null ? (
     <div className="flex-1 h-5/6 w-full bg-neutral-200">
       <div className="max-h-full h-[95%] w-full overflow-scroll">
         <table className="max-h-full min-w-full w-max">
@@ -161,6 +165,17 @@ function TableComponent() {
           </div>
         </div>
       </div>
+    </div>
+  ) : (
+    <div className="flex-1 flex flex-col justify-center items-center h-5/6 w-full bg-neutral-200 text-black">
+      <FontAwesomeIcon
+        icon={faSpinner}
+        className="spin-animation text-2xl text-green-700"
+      />
+      <span className="text-2xl">
+        Server is now reading your data,{" "}
+        <span className="text-green-700">please wait...</span>
+      </span>
     </div>
   );
 }

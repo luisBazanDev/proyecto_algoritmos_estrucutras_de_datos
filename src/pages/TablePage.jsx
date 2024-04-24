@@ -7,12 +7,14 @@ import AppContext from "../contexts/AppContext";
 
 var interval;
 var pageLocal;
+var localTableState;
 
 function TablePage() {
-  const { token, setDataState, page, setData, setPage } =
+  const { token, dataState, setDataState, page, setData, setPage } =
     useContext(AppContext);
 
   pageLocal = page;
+  localTableState = dataState;
 
   useEffect(() => {
     if (interval) clearInterval(interval);
@@ -23,6 +25,7 @@ function TablePage() {
         .then((res) => {
           setDataState(res.data.tableStatus);
         });
+      if (localTableState !== "READY") return;
       axios
         .get("/api/data", {
           headers: { Authorization: `${token}` },

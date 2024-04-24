@@ -3,10 +3,14 @@ import ControlsComponent from "./ControlsComponent";
 
 function Search() {
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col gap-2 items-center">
       <div>Search data</div>
-      <input type="text" name="search" />
-      <div>
+      <input
+        type="text"
+        name="search"
+        className="text-black outline-none p-1"
+      />
+      <div className="flex gap-3 text-black">
         <select name="column">
           <option value="">Column 1</option>
           <option value="">Column 2</option>

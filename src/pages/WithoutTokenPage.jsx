@@ -30,7 +30,7 @@ function WithoutTokenPage() {
         console.log(response.status);
         if (response.status === 200) {
           setToken(response.data);
-          setDataState("READY");
+          setDataState("READING");
         }
       })
       .catch((error) => {
@@ -76,7 +76,7 @@ function WithoutTokenPage() {
           className={"text-2xl" + (file ? " spin-animation" : "")}
         />
         <p className="text-xl">
-          {file ? "Cargando archivo" : "Suelta tu archivo aquí ..."}
+          {file ? "Loading file" : "Drop your file here ..."}
         </p>
         <div className={"h-3 w-1/2 bg-gray-500" + (file ? "" : " hidden")}>
           <div className={`h-full bg-blue-400 w-[${progress}%]`}></div>
