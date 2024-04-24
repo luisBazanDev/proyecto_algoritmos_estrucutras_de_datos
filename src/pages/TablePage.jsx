@@ -5,19 +5,30 @@ import SortComponent from "../components/SortComponent";
 import SearchComponent from "../components/SearchComponent";
 import AppContext from "../contexts/AppContext";
 
+var interval;
+
 function TablePage() {
-  const { token, setDataState } = useContext(AppContext);
+  const { token, setDataState, page, setData } = useContext(AppContext);
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    if (interval) clearInterval(interval);
+
+    interval = setInterval(() => {
       axios
         .get("/api/status", { headers: { Authorization: `${token}` } })
         .then((res) => {
           setDataState(res.data.tableStatus);
         });
+      axios
+        .get("/api/data", {
+          headers: { Authorization: `${token}` },
+          params: { page, limit: 50 },
+        })
+        .then((res) => {
+          setData(res.data);
+        });
     }, 1000);
-    return interval;
-  }, [setDataState, token]);
+  }, [setDataState, token, setData]);
 
   return (
     <div className="flex flex-col h-full">
