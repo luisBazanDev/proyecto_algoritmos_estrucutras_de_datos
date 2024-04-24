@@ -29,7 +29,11 @@ function App() {
 
   return (
     <AppContext.Provider value={value}>
-      <div className="App h-screen">
+      <div
+        className={
+          "App h-screen " + (dataState === "PROCESING" ? "cursor-progress" : "")
+        }
+      >
         {!token && <WithoutTokenPage />}
         {token && <TablePage />}
       </div>

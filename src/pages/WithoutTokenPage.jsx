@@ -61,8 +61,11 @@ function WithoutTokenPage() {
   );
 
   return (
-    <div className="h-screen w-screen flex flex-col p-4">
-      <div className="text-2xl text-center mb-3">CSV Navigator</div>
+    <div className="h-screen w-screen flex flex-col px-4">
+      <div className="text-2xl text-center mb-1 flex justify-center items-center">
+        CSV Navigator{" "}
+        <img className="h-28 aspect-square" src="./logo.png" alt="logo.png" />
+      </div>
       <div
         className={
           "h-full w-full bg-gray-100 flex flex-col justify-center items-center" +
@@ -76,7 +79,7 @@ function WithoutTokenPage() {
           className={"text-2xl" + (file ? " spin-animation" : "")}
         />
         <p className="text-xl">
-          {file ? "Loading file" : "Drop your file here ..."}
+          {file ? "Uploading file" : "Drop your file here ..."}
         </p>
         <div className={"h-3 w-1/2 bg-gray-500" + (file ? "" : " hidden")}>
           <div className={`h-full bg-blue-400 w-[${progress}%]`}></div>
