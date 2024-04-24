@@ -8,7 +8,7 @@ function TablePage() {
     <div className="flex flex-col h-full">
       <div className="flex justify-between text-white bg-gray-900">
         <div className="font-bold text-2xl content-center justify-center px-5">
-          AED - App v1
+          CSV Navigator
         </div>
         <div>controls</div>
         <SortComponent />
