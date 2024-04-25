@@ -1,10 +1,10 @@
 import { useEffect, useContext } from "react";
-import axios from "axios";
 import TableComponent from "../components/TableComponent";
 import SortComponent from "../components/SortComponent";
 import SearchComponent from "../components/SearchComponent";
 import ExportComponent from "../components/ExportComponent";
 import AppContext from "../contexts/AppContext";
+import { fetchData, fetchState } from "../utils/fetchData";
 
 var interval;
 var pageLocal;
@@ -28,32 +28,24 @@ function TablePage() {
     if (interval) clearInterval(interval);
 
     interval = setInterval(async () => {
-      let cancelData = false;
-      await axios
-        .get("/api/status", { headers: { Authorization: `${token}` } })
-        .then((res) => {
-          if (res.data.lastSearch !== -1) {
-            setLastSearch(res.data.lastSearch);
-            setPage({
-              now: Math.ceil(res.data.lastSearch / 50),
-              total: page.totalPages,
-            });
-            cancelData = true;
-          }
-          setDataState(res.data.tableStatus);
-        });
-      if (localTableState !== "READY" || cancelData) return;
-      axios
-        .get("/api/data", {
-          headers: { Authorization: `${token}` },
-          params: { page: pageLocal.now, limit: 50 },
-        })
-        .then((res) => {
-          setData(res.data.data);
-          setPage({ now: pageLocal.now, total: res.data.totalPages });
-        });
+      await fetchState({
+        pageLocal,
+        setDataState,
+        setLastSearch,
+        setPage,
+        token,
+      });
+      await fetchData({
+        token,
+        setData,
+        setDataState,
+        setPage,
+        setLastSearch,
+        dataState: localTableState,
+        pageLocal,
+      });
     }, 1000);
-  }, [setDataState, token, setData, setPage]);
+  }, [setDataState, token, setData, setPage, setLastSearch]);
 
   return (
     <div className="flex flex-col h-full">

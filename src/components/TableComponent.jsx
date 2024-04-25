@@ -6,11 +6,21 @@ import {
   faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 import AppContext from "../contexts/AppContext";
+import { fetchData } from "../utils/fetchData";
 
 function TableComponent() {
   const [pointerCell, setPointerCell] = useState([0, 0]); // [x, y]
-  const { page, data, setPage, lastSearch, setLastSearch } =
-    useContext(AppContext);
+  const {
+    page,
+    data,
+    setPage,
+    lastSearch,
+    setLastSearch,
+    token,
+    setData,
+    dataState,
+    setDataState,
+  } = useContext(AppContext);
 
   const handleMouseMove = (e) => {
     const x = e.target.cellIndex;
@@ -21,17 +31,34 @@ function TableComponent() {
 
   const handlePageChange = (howPage) => {
     if (lastSearch !== -1) setLastSearch(-1);
-    if (howPage === "prev" && page.now > 1) {
-      setPage({ now: page.now - 1, total: page.total });
-    } else if (howPage === "next" && page.now < page.total) {
-      setPage({ now: page.now + 1, total: page.total });
-    } else if (
-      typeof howPage === "number" &&
-      howPage > 0 &&
-      howPage <= page.total
-    ) {
-      setPage({ now: howPage, total: page.total });
-    }
+
+    const newPage = ((howPage) => {
+      if (howPage === "prev" && page.now > 1) {
+        return { now: page.now - 1, total: page.total };
+      } else if (howPage === "next" && page.now < page.total) {
+        return { now: page.now + 1, total: page.total };
+      } else if (
+        typeof howPage === "number" &&
+        howPage > 0 &&
+        howPage <= page.total
+      ) {
+        return { now: howPage, total: page.total };
+      }
+    })(howPage);
+
+    setPage(newPage);
+
+    console.log(newPage);
+
+    fetchData({
+      token,
+      pageLocal: newPage,
+      setLastSearch,
+      setPage,
+      dataState,
+      setData,
+      setDataState,
+    });
   };
 
   // data is a array of objects
@@ -102,17 +129,17 @@ function TableComponent() {
       </div>
       <div className="h-[5%] w-full flex justify-center bg-gray-900">
         <div className="flex text-white text-lg border-e-black">
-          <div className="px-2 w-8 cursor-pointer select-none text-center hover:bg-cyan-700 active:bg-cyan-900">
-            <FontAwesomeIcon
-              icon={faArrowLeft}
-              onClick={() => {
-                handlePageChange("prev");
-              }}
-            />
+          <div
+            className="px-2 min-w-8 cursor-pointer select-none text-center hover:bg-cyan-700 active:bg-cyan-900"
+            onClick={() => {
+              handlePageChange("prev");
+            }}
+          >
+            <FontAwesomeIcon icon={faArrowLeft} />
           </div>
           <div
             className={
-              "px-2 w-8 cursor-pointer select-none text-center hover:bg-cyan-700 active:bg-cyan-900 " +
+              "px-2 min-w-8 cursor-pointer select-none text-center hover:bg-cyan-700 active:bg-cyan-900 " +
               (page.now === 1 ? "bg-cyan-700" : "")
             }
             onClick={() => {
@@ -123,7 +150,7 @@ function TableComponent() {
           </div>
           <div
             className={
-              "px-2 w-8 cursor-pointer select-none text-center hover:bg-cyan-700 active:bg-cyan-900 " +
+              "px-2 min-w-8 cursor-pointer select-none text-center hover:bg-cyan-700 active:bg-cyan-900 " +
               (page.now !== 1 ? "bg-cyan-700" : "")
             }
             onClick={() => {
@@ -134,7 +161,7 @@ function TableComponent() {
           </div>
           <div
             className={
-              "px-2 w-8 cursor-pointer select-none text-center hover:bg-cyan-700 active:bg-cyan-900 " +
+              "px-2 min-w-8 cursor-pointer select-none text-center hover:bg-cyan-700 active:bg-cyan-900 " +
               (page.now + 1 >= page.total ? "hidden" : "")
             }
             onClick={() => {
@@ -145,7 +172,7 @@ function TableComponent() {
           </div>
           <div
             className={
-              "px-2 w-8 cursor-pointer select-none text-center hover:bg-cyan-700 active:bg-cyan-900 " +
+              "px-2 min-w-8 cursor-pointer select-none text-center hover:bg-cyan-700 active:bg-cyan-900 " +
               (page.now + 2 >= page.total ? "hidden" : "")
             }
           >
@@ -153,7 +180,7 @@ function TableComponent() {
           </div>
           <div
             className={
-              "px-2 w-8 cursor-pointer select-none text-center hover:bg-cyan-700 active:bg-cyan-900 " +
+              "px-2 min-w-8 cursor-pointer select-none text-center hover:bg-cyan-700 active:bg-cyan-900 " +
               (page.now >= page.total ? "hidden" : "")
             }
             onClick={() => {
@@ -162,13 +189,13 @@ function TableComponent() {
           >
             {page.total}
           </div>
-          <div className="px-2 w-8 cursor-pointer hover:bg-cyan-700 active:bg-cyan-900 ">
-            <FontAwesomeIcon
-              icon={faArrowRight}
-              onClick={() => {
-                handlePageChange("next");
-              }}
-            />
+          <div
+            className="px-2 w-8 cursor-pointer hover:bg-cyan-700 active:bg-cyan-900 "
+            onClick={() => {
+              handlePageChange("next");
+            }}
+          >
+            <FontAwesomeIcon icon={faArrowRight} />
           </div>
         </div>
       </div>
