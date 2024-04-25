@@ -10,10 +10,18 @@ function ExportComponent() {
     axios
       .get("/api/export", {
         headers: { Authorization: `${token}` },
-        params: { fileType: fileType },
+        params: { format: fileType },
       })
       .then((res) => {
-        console.log(res.data);
+        const blob = new Blob([res.data], { type: "text/plain" });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "export." + fileType.toLowerCase();
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
       });
   };
 
