@@ -33,7 +33,7 @@ function TablePage() {
         })
         .then((res) => {
           setData(res.data.data);
-          setPage({ now: pageLocal.now, total: res.data.size });
+          setPage({ now: pageLocal.now, total: res.data.totalPages });
         });
     }, 1000);
   }, [setDataState, token, setData, setPage]);
