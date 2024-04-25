@@ -9,7 +9,8 @@ import AppContext from "../contexts/AppContext";
 
 function TableComponent() {
   const [pointerCell, setPointerCell] = useState([0, 0]); // [x, y]
-  const { page, data, setPage } = useContext(AppContext);
+  const { page, data, setPage, lastSearch, setLastSearch } =
+    useContext(AppContext);
 
   const handleMouseMove = (e) => {
     const x = e.target.cellIndex;
@@ -19,6 +20,7 @@ function TableComponent() {
   };
 
   const handlePageChange = (howPage) => {
+    if (lastSearch !== -1) setLastSearch(-1);
     if (howPage === "prev" && page.now > 1) {
       setPage({ now: page.now - 1, total: page.total });
     } else if (howPage === "next" && page.now < page.total) {
@@ -64,7 +66,15 @@ function TableComponent() {
             {
               // data is an array of objects
               data.map((item, indexY) => (
-                <tr key={"row-" + indexY} className="h-max">
+                <tr
+                  key={"row-" + indexY}
+                  className={
+                    "h-max " +
+                    (indexY + (page - 1) * 50 === lastSearch
+                      ? "bg-pink-400"
+                      : "")
+                  }
+                >
                   <td
                     className={
                       "border-2 border-black transition-transform " +

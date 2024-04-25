@@ -10,8 +10,15 @@ var pageLocal;
 var localTableState;
 
 function TablePage() {
-  const { token, dataState, setDataState, page, setData, setPage } =
-    useContext(AppContext);
+  const {
+    token,
+    dataState,
+    setDataState,
+    page,
+    setData,
+    setPage,
+    setLastSearch,
+  } = useContext(AppContext);
 
   pageLocal = page;
   localTableState = dataState;
@@ -23,6 +30,11 @@ function TablePage() {
       axios
         .get("/api/status", { headers: { Authorization: `${token}` } })
         .then((res) => {
+          if (res.data.lastSearch !== -1) setLastSearch(res.data.lastSearch);
+          setPage({
+            now: Math.round(res.data.lastSearch / 50),
+            total: pageLocal.totalPages,
+          });
           setDataState(res.data.tableStatus);
         });
       if (localTableState !== "READY") return;
