@@ -3,6 +3,7 @@ import axios from "axios";
 import TableComponent from "../components/TableComponent";
 import SortComponent from "../components/SortComponent";
 import SearchComponent from "../components/SearchComponent";
+import ExportComponent from "../components/ExportComponent";
 import AppContext from "../contexts/AppContext";
 
 var interval;
@@ -60,7 +61,7 @@ function TablePage() {
         <div className="font-bold text-2xl content-center justify-center px-5">
           CSV Navigator
         </div>
-        <div>controls</div>
+        <ExportComponent />
         <SortComponent />
         <SearchComponent />
       </div>
