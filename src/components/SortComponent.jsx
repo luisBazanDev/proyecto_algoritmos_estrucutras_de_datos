@@ -27,6 +27,7 @@ function SortComponent() {
   };
 
   const handlerSort = (e) => {
+    if (dataState !== "READY") return;
     axios
       .put("/api/order", null, {
         params: { algorithms: algorithm, col: column, ascendent: ascendent },
