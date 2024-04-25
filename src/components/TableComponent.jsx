@@ -52,7 +52,7 @@ function TableComponent() {
                     className={
                       "border-2 border-black transition-transform " +
                       (pointerCell[0] === index + 1
-                        ? "bg-orange-600 scale-105"
+                        ? "bg-orange-600"
                         : "bg-yellow-600")
                     }
                   >
@@ -66,20 +66,12 @@ function TableComponent() {
             {
               // data is an array of objects
               data.map((item, indexY) => (
-                <tr
-                  key={"row-" + indexY}
-                  className={
-                    "h-max " +
-                    (indexY + (page - 1) * 50 === lastSearch
-                      ? "bg-pink-400"
-                      : "")
-                  }
-                >
+                <tr key={"row-" + indexY} className="h-max">
                   <td
                     className={
                       "border-2 border-black transition-transform " +
                       (pointerCell[1] === indexY + 1
-                        ? "bg-gray-400 scale-105"
+                        ? "bg-gray-400"
                         : "bg-gray-300")
                     }
                   >
@@ -90,7 +82,12 @@ function TableComponent() {
                     Object.values(item).map((value, indexX) => (
                       <td
                         key={"cell-" + indexY + indexX}
-                        className="border-2 border-black"
+                        className={
+                          "border-2 border-black" +
+                          (indexY + (page.now - 1) * 50 === lastSearch
+                            ? " bg-pink-400"
+                            : "")
+                        }
                         onMouseMove={handleMouseMove}
                       >
                         {value}

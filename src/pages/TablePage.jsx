@@ -26,18 +26,22 @@ function TablePage() {
   useEffect(() => {
     if (interval) clearInterval(interval);
 
-    interval = setInterval(() => {
-      axios
+    interval = setInterval(async () => {
+      let cancelData = false;
+      await axios
         .get("/api/status", { headers: { Authorization: `${token}` } })
         .then((res) => {
-          if (res.data.lastSearch !== -1) setLastSearch(res.data.lastSearch);
-          setPage({
-            now: Math.round(res.data.lastSearch / 50),
-            total: pageLocal.totalPages,
-          });
+          if (res.data.lastSearch !== -1) {
+            setLastSearch(res.data.lastSearch);
+            setPage({
+              now: Math.ceil(res.data.lastSearch / 50),
+              total: page.totalPages,
+            });
+            cancelData = true;
+          }
           setDataState(res.data.tableStatus);
         });
-      if (localTableState !== "READY") return;
+      if (localTableState !== "READY" || cancelData) return;
       axios
         .get("/api/data", {
           headers: { Authorization: `${token}` },

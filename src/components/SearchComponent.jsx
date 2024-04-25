@@ -7,7 +7,7 @@ import AppContext from "../contexts/AppContext";
 let search = false;
 
 function Search() {
-  const { data, token, dataState, lastSearch } = useContext(AppContext);
+  const { data, token, dataState } = useContext(AppContext);
   const [query, setQuery] = useState("");
   const [column, setColumn] = useState(0);
   const [algorithm, setAlgorithm] = useState("BINARY");
